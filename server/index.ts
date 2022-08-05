@@ -1,13 +1,17 @@
-import express from "express";
+import { ApolloServer } from "apollo-server";
 
-// Start express server
-const app = express();
-const port = process.env.PORT || 8000;
+import { typeDefs } from "./schema.types";
 
-app.get("/", (req, res) => {
-    res.send("hello!");
+const mocks = {
+    Date: () => new Date().toISOString(),
+};
+
+const server = new ApolloServer({
+    typeDefs,
+    mocks,
 });
 
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+(async () => {
+    const { url } = await server.listen();
+    console.log(`Server listening on port ${url}`);
+})();

@@ -1,16 +1,16 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-// Start express server
-const app = (0, express_1.default)();
-const port = process.env.PORT || 8000;
-app.get("/", (req, res) => {
-    res.send("hello!");
+const apollo_server_1 = require("apollo-server");
+const schema_types_1 = require("./schema.types");
+const mocks = {
+    Date: () => new Date().toISOString(),
+};
+const server = new apollo_server_1.ApolloServer({
+    typeDefs: schema_types_1.typeDefs,
+    mocks,
 });
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+(async () => {
+    const { url } = await server.listen();
+    console.log(`Server listening on port ${url}`);
+})();
 //# sourceMappingURL=index.js.map
